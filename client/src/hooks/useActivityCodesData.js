@@ -3,6 +3,7 @@ import {
   getActivityCodes,
   createActivityCode as createActivityCodeApi,
   deleteActivityCode as deleteActivityCodeApi,
+  updateActivityCode as updateActivityCodeApi,
 } from '../services/api';
 
 export const useActivityCodesData = () => {
@@ -65,6 +66,22 @@ export const useActivityCodesData = () => {
     return false;
   };
 
+  const updateActivityCode = async (id, payload) => {
+    try {
+      setIsLoading(true);
+      await updateActivityCodeApi(id, payload);
+      setSuccess("Code d'activité mis à jour !");
+      fetchActivityCodes();
+      setTimeout(() => setSuccess(''), 3000);
+      return true;
+    } catch (err) {
+      setError('Erreur lors de la mise à jour du code');
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     activityCodes,
     error,
@@ -74,6 +91,7 @@ export const useActivityCodesData = () => {
     clearSuccess,
     createActivityCode,
     deleteActivityCode,
+    updateActivityCode,
     refreshActivityCodes: fetchActivityCodes,
   };
 };

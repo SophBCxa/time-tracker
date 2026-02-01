@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 export const useActivityCodeForm = ({ onSubmit }) => {
-  const [newCode, setNewCode] = useState({ label: '', color: '', client: '' });
+  const [newCode, setNewCode] = useState({ label: '', color: '', client: '', icon: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const resetForm = () => {
-    setNewCode({ label: '', color: '', client: '' });
+    setNewCode({ label: '', color: '', client: '', icon: '' });
     setErrors({});
   };
 

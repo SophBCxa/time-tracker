@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Alert, Nav, Tab, Spinner } from 'react-bootstrap';
 import TimeEntryList from './components/TimeEntryList';
 import TimeEntryForm from './components/TimeEntryForm';
@@ -19,7 +19,19 @@ function TimeTracker() {
     clearSuccess: clearActivityCodesSuccess,
     createActivityCode,
     deleteActivityCode,
+    updateActivityCode,
   } = useActivityCodesData();
+
+  const [editingCodeId, setEditingCodeId] = useState(null);
+
+  const handleActivityCodeSubmit = async (payload) => {
+    if (editingCodeId) {
+      const ok = await updateActivityCode(editingCodeId, payload);
+      if (ok) setEditingCodeId(null);
+      return ok;
+    }
+    return createActivityCode(payload);
+  };
 
   const {
     newCode,
@@ -27,7 +39,8 @@ function TimeTracker() {
     errors: activityCodeFormErrors,
     isSubmitting: isActivityCodeSubmitting,
     handleSubmit: handleNewCodeSubmit,
-  } = useActivityCodeForm({ onSubmit: createActivityCode });
+    resetForm: resetActivityCodeForm,
+  } = useActivityCodeForm({ onSubmit: handleActivityCodeSubmit });
 
   const {
     entries,
@@ -68,6 +81,21 @@ function TimeTracker() {
   const clearSuccess = () => {
     if (activityCodesSuccess) clearActivityCodesSuccess();
     if (timeEntriesSuccess) clearTimeEntriesSuccess();
+  };
+
+  const startEditCode = (code) => {
+    setEditingCodeId(code._id);
+    setNewCode({
+      label: code.label || '',
+      color: code.color || '',
+      client: code.client || '',
+      icon: code.icon || '',
+    });
+  };
+
+  const cancelEditCode = () => {
+    setEditingCodeId(null);
+    resetActivityCodeForm();
   };
 
   return (
@@ -130,6 +158,7 @@ function TimeTracker() {
                   <ActivityCodeList
                     activityCodes={activityCodes}
                     onDelete={deleteActivityCode}
+                    onEdit={startEditCode}
                   />
                 </Col>
                 <Col lg={6}>
@@ -139,6 +168,8 @@ function TimeTracker() {
                     errors={activityCodeFormErrors}
                     isSubmitting={isActivityCodeSubmitting}
                     onSubmit={handleNewCodeSubmit}
+                    isEditing={!!editingCodeId}
+                    onCancelEdit={cancelEditCode}
                   />
                 </Col>
               </Row>

@@ -3,11 +3,11 @@ import { Card, Form, Button } from 'react-bootstrap';
 import ColorSelect from './ColorSelect';
 import IconSelect from './IconSelect';
 
-function ActivityCodeForm({ newCode, setNewCode, errors, isSubmitting, onSubmit }) {
+function ActivityCodeForm({ newCode, setNewCode, errors, isSubmitting, onSubmit, isEditing, onCancelEdit }) {
   return (
     <Card className="shadow-sm">
         <Card.Header className="bg-primary text-white">
-          <h5 className="mb-0">Ajouter un Nouveau Code</h5>
+          <h5 className="mb-0">{isEditing ? 'Modifier un Code' : 'Ajouter un Nouveau Code'}</h5>
         </Card.Header>
         <Card.Body>
           <Form onSubmit={onSubmit}>
@@ -54,9 +54,16 @@ function ActivityCodeForm({ newCode, setNewCode, errors, isSubmitting, onSubmit 
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="w-100 fw-bold" disabled={isSubmitting}>
-              {isSubmitting ? 'Ajout...' : '➕ Ajouter Code'}
-            </Button>
+            <div className="d-flex gap-2">
+              <Button variant="primary" type="submit" className="w-100 fw-bold" disabled={isSubmitting}>
+                {isSubmitting ? (isEditing ? 'Mise à jour...' : 'Ajout...') : (isEditing ? '💾 Mettre à jour' : '➕ Ajouter Code')}
+              </Button>
+              {isEditing && (
+                <Button variant="outline-secondary" type="button" className="w-100" onClick={onCancelEdit}>
+                  Annuler
+                </Button>
+              )}
+            </div>
           </Form>
         </Card.Body>
     </Card>

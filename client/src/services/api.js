@@ -19,6 +19,11 @@ export const deleteActivityCode = async (id) => {
   return response.data;
 };
 
+export const updateActivityCode = async (id, payload) => {
+  const response = await api.patch(`/activity-codes/${id}`, payload);
+  return response.data;
+};
+
 export const getTimeEntries = async () => {
   const response = await api.get('/time-entries');
   return response.data;

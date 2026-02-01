@@ -57,6 +57,21 @@ app.delete('/api/activity-codes/:id', async (req, res) => {
     }
 });
 
+// Route pour mettre à jour un code d'activité
+app.patch('/api/activity-codes/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedCode = await ActivityCode.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedCode) {
+            return res.status(404).json({ error: 'Activity code not found' });
+        }
+        res.send(updatedCode);
+    } catch (error) {
+        console.error('Error updating activity code:', error);
+        res.status(500).json({ error: 'Failed to update activity code' });
+    }
+});
+
 const timeEntrySchema = new mongoose.Schema({
     activityCode: { type: mongoose.Schema.Types.ObjectId, ref: 'ActivityCode', required: true },
     timeSpent: Number,
