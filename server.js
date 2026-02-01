@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/time-tracker';
 mongoose.connect(mongoUri);

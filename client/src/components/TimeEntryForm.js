@@ -59,13 +59,14 @@ function TimeEntryForm({
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label className="fw-bold">Temps passé (minutes)</Form.Label>
+                <Form.Label className="fw-bold">Durée (jours)</Form.Label>
                 <Form.Control
                   type="number"
                   value={timeSpent}
                   onChange={(e) => setTimeSpent(e.target.value)}
-                  placeholder="ex: 120"
-                  min="1"
+                  placeholder="ex: 0.5"
+                  min="0.01"
+                  step="0.01"
                   required
                   isInvalid={!!errors?.timeSpent}
                 />

@@ -22,9 +22,9 @@ export const useTimeEntryForm = ({ onSubmit }) => {
     const nextErrors = {};
     if (!date) nextErrors.date = 'La date est obligatoire.';
     if (!activityCode) nextErrors.activityCode = "Le code d'activité est obligatoire.";
-    const minutes = Number(timeSpent);
-    if (!timeSpent || Number.isNaN(minutes) || minutes <= 0) {
-      nextErrors.timeSpent = 'Le temps passé doit être supérieur à 0.';
+    const days = Number(timeSpent);
+    if (!timeSpent || Number.isNaN(days) || days <= 0) {
+      nextErrors.timeSpent = 'La durée en jours doit être supérieure à 0.';
     }
     if (details && details.length > 500) {
       nextErrors.details = 'Le détail ne doit pas dépasser 500 caractères.';

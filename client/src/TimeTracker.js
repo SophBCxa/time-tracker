@@ -100,8 +100,7 @@ function TimeTracker() {
 
   return (
     <div className="bg-light py-5">
-      <Container>
-        <h1 className="mb-5 text-center fw-bold text-primary">⏱️ Time Tracker</h1>
+      <Container fluid className="px-0">
 
         {error && <Alert variant="danger" onClose={clearError} dismissible>{error}</Alert>}
         {success && <Alert variant="success" onClose={clearSuccess} dismissible>{success}</Alert>}
@@ -113,68 +112,79 @@ function TimeTracker() {
         )}
 
         <Tab.Container defaultActiveKey="entries">
-          <Nav variant="pills" className="mb-4 justify-content-center">
-            <Nav.Item>
-              <Nav.Link eventKey="entries" className="btn-lg">📊 Entrées de Temps</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="new-entry" className="btn-lg">➕ Nouvelle Entrée</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="activities" className="btn-lg">🏷️ Codes d'Activité</Nav.Link>
-            </Nav.Item>
-          </Nav>
+          <Row className="g-4">
+            <Col lg={2} md={3} className="ps-0">
+              <div className="px-3">
+                <h6 className="text-uppercase text-muted fw-bold mb-3">Menu</h6>
+              </div>
+              <Nav variant="pills" className="flex-column">
+                <Nav.Item>
+                  <Nav.Link eventKey="entries" className="btn-lg">📊 Entrées de Temps</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="new-entry" className="btn-lg">➕ Nouvelle Entrée</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="activities" className="btn-lg">🏷️ Codes d'Activité</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Col>
+            <Col lg={10} md={9}>
+              <h1 className="mb-4 fw-bold text-primary">⏱️ Time Tracker</h1>
+              <Tab.Content>
+                <Tab.Pane eventKey="entries">
+                  <TimeEntryList
+                    entries={entries}
+                    onDelete={deleteTimeEntry}
+                    onUpdateSaisie={updateTimeEntry}
+                    updatingIds={timeEntriesUpdatingIds}
+                  />
+                </Tab.Pane>
 
-          <Tab.Content>
-            <Tab.Pane eventKey="entries">
-              <TimeEntryList
-                entries={entries}
-                onDelete={deleteTimeEntry}
-                onUpdateSaisie={updateTimeEntry}
-                updatingIds={timeEntriesUpdatingIds}
-              />
-            </Tab.Pane>
-
-            <Tab.Pane eventKey="new-entry">
-              <TimeEntryForm
-                date={date}
-                setDate={setDate}
-                activityCode={activityCode}
-                setActivityCode={setActivityCode}
-                timeSpent={timeSpent}
-                setTimeSpent={setTimeSpent}
-                details={details}
-                setDetails={setDetails}
-                activityCodes={activityCodes}
-                errors={timeEntryFormErrors}
-                isSubmitting={isTimeEntrySubmitting}
-                onSubmit={handleSubmit}
-              />
-            </Tab.Pane>
-
-            <Tab.Pane eventKey="activities">
-              <Row className="g-4">
-                <Col lg={6}>
-                  <ActivityCodeList
+                <Tab.Pane eventKey="new-entry">
+                  <TimeEntryForm
+                    date={date}
+                    setDate={setDate}
+                    activityCode={activityCode}
+                    setActivityCode={setActivityCode}
+                    timeSpent={timeSpent}
+                    setTimeSpent={setTimeSpent}
+                    details={details}
+                    setDetails={setDetails}
                     activityCodes={activityCodes}
-                    onDelete={deleteActivityCode}
-                    onEdit={startEditCode}
+                    errors={timeEntryFormErrors}
+                    isSubmitting={isTimeEntrySubmitting}
+                    onSubmit={handleSubmit}
                   />
-                </Col>
-                <Col lg={6}>
-                  <ActivityCodeForm
-                    newCode={newCode}
-                    setNewCode={setNewCode}
-                    errors={activityCodeFormErrors}
-                    isSubmitting={isActivityCodeSubmitting}
-                    onSubmit={handleNewCodeSubmit}
-                    isEditing={!!editingCodeId}
-                    onCancelEdit={cancelEditCode}
-                  />
-                </Col>
-              </Row>
-            </Tab.Pane>
-          </Tab.Content>
+                </Tab.Pane>
+
+                <Tab.Pane eventKey="activities">
+                  <div className="px-3">
+                    <Row className="g-5">
+                    <Col lg={4}>
+                      <ActivityCodeList
+                        activityCodes={activityCodes}
+                        onDelete={deleteActivityCode}
+                        onEdit={startEditCode}
+                      />
+                    </Col>
+                    <Col lg={8}>
+                      <ActivityCodeForm
+                        newCode={newCode}
+                        setNewCode={setNewCode}
+                        errors={activityCodeFormErrors}
+                        isSubmitting={isActivityCodeSubmitting}
+                        onSubmit={handleNewCodeSubmit}
+                        isEditing={!!editingCodeId}
+                        onCancelEdit={cancelEditCode}
+                      />
+                    </Col>
+                    </Row>
+                  </div>
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
+          </Row>
         </Tab.Container>
       </Container>
     </div>

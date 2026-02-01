@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Card, Button, Table, Badge, Spinner } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
-import { formatDate, formatTime, mapColorToBootstrap } from '../utils/formatters';
+import { formatDate, formatTime, formatTimeDaysValue, mapColorToBootstrap } from '../utils/formatters';
 import { getIcon } from '../utils/icons';
 
 function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
@@ -47,7 +47,7 @@ function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
       Date: formatDate(entry.date),
       Activite: entry.activityCode?.label || 'N/A',
       Client: entry.activityCode?.client || '',
-      Duree: formatTime(entry.timeSpent),
+      Jours: formatTimeDaysValue(entry.timeSpent),
       Details: entry.details || '',
       NISA: entry.saisie?.nisa ? 'Oui' : 'Non',
       Perso: entry.saisie?.perso ? 'Oui' : 'Non',
@@ -60,7 +60,8 @@ function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
   };
 
   return (
-    <Card className="shadow-sm">
+    <div className="mx-auto" style={{ maxWidth: '80%' }}>
+      <Card className="shadow-sm">
       <Card.Header className="bg-primary text-white">
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="mb-0">Historique des Entrées ({entries.length})</h5>
@@ -83,7 +84,7 @@ function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
                   <th rowSpan={2} style={{ cursor: 'pointer' }} onClick={() => toggleSort('activity')}>
                     Activité{getSortIndicator('activity')}
                   </th>
-                  <th rowSpan={2} className="text-end">Durée</th>
+                  <th rowSpan={2} className="text-end">Durée (jours)</th>
                   <th colSpan={3} className="text-center">Saisie</th>
                   <th rowSpan={2} className="text-center">Actions</th>
                 </tr>
@@ -177,7 +178,8 @@ function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
           </div>
         )}
       </Card.Body>
-    </Card>
+      </Card>
+    </div>
   );
 }
 
