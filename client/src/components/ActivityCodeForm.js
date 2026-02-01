@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import ColorSelect from './ColorSelect';
+import IconSelect from './IconSelect';
 
 function ActivityCodeForm({ newCode, setNewCode, errors, isSubmitting, onSubmit }) {
   return (
@@ -32,6 +33,11 @@ function ActivityCodeForm({ newCode, setNewCode, errors, isSubmitting, onSubmit 
             {errors?.color && (
               <div className="text-danger small mb-3">{errors.color}</div>
             )}
+
+            <IconSelect
+              value={newCode.icon || ''}
+              onChange={(e) => setNewCode({ ...newCode, icon: e.target.value })}
+            />
 
             <Form.Group className="mb-3">
               <Form.Label className="fw-bold">Client</Form.Label>

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Card, Button, Table, Badge, Spinner } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
 import { formatDate, formatTime, mapColorToBootstrap } from '../utils/formatters';
+import { getIcon } from '../utils/icons';
 
 function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
   const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'desc' });
@@ -117,6 +118,7 @@ function TimeEntryList({ entries, onDelete, onUpdateSaisie, updatingIds }) {
                         style={{ cursor: entry.details ? 'help' : 'default' }}
                       >
                         <Badge bg={mapColorToBootstrap(entry.activityCode?.color)}>
+                          {entry.activityCode?.icon && <span className="me-2">{getIcon(entry.activityCode.icon, 'sm')}</span>}
                           {entry.activityCode?.label || 'N/A'}
                         </Badge>
                         {entry.details && (

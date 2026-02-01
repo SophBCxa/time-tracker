@@ -13,6 +13,7 @@ const activityCodeSchema = new mongoose.Schema({
     label: String,
     color: String,
     client: String,
+    icon: String,
 });
 
 const ActivityCode = mongoose.model('ActivityCode', activityCodeSchema);
@@ -20,8 +21,8 @@ const ActivityCode = mongoose.model('ActivityCode', activityCodeSchema);
 // Route pour ajouter un code d'activité
 app.post('/api/activity-codes', async (req, res) => {
     try {
-        const { label, color, client } = req.body;
-        const newCode = new ActivityCode({ label, color, client });
+        const { label, color, client, icon } = req.body;
+        const newCode = new ActivityCode({ label, color, client, icon });
         await newCode.save();
         res.status(201).send(newCode);
     } catch (error) {

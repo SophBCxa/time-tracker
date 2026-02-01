@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Badge, Button } from 'react-bootstrap';
 import { mapColorToBootstrap } from '../utils/formatters';
+import { getIcon } from '../utils/icons';
 
 function ActivityCodeList({ activityCodes, onDelete }) {
   return (
@@ -33,6 +34,7 @@ function ActivityCodeList({ activityCodes, onDelete }) {
                   className="p-3"
                   style={{ fontSize: '1rem', cursor: 'default' }}
                 >
+                  {code.icon && <span className="me-2">{getIcon(code.icon, 'sm')}</span>}
                   {code.label} - {code.client}
                 </Badge>
                 <Button
