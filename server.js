@@ -6,7 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/time-tracker');
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/time-tracker';
+mongoose.connect(mongoUri);
 
 const activityCodeSchema = new mongoose.Schema({
     label: String,
